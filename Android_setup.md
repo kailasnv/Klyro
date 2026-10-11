@@ -65,6 +65,14 @@ The phone should appear as a device in the same tailnet as the Linux server.
 Add auto start klyro service on boot on android.
 Also start ssh service on boot so its can be remotly controlled and managed
 
+### start app
+run the application by:
+
+    python app.py
+
+access locally by `http://<phone-ip>:5000`
+
+
 ### 4. Now start the server on boot
 
 inside android Termux, Create the boot script directory and script:
@@ -84,9 +92,10 @@ Add the following:
 
     exec python app.py >> "$HOME/klyro.log" 2>&1
 
+
 Make the script executable:
 
-chmod +x ~/.termux/boot/start-klyro
+    chmod +x ~/.termux/boot/start-klyro
 
 Open Termux once after installation and reboot to test the setup.  
 
