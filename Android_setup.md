@@ -85,6 +85,9 @@ Add the following:
     #!/data/data/com.termux/files/usr/bin/sh
 
     termux-wake-lock
+    sshd
+    tailscaled-start
+    tailscale up
 
     cd "$HOME/Klyro" || exit 1
 
