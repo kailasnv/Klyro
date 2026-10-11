@@ -1,16 +1,16 @@
 # Android Setup (Termux — Without Google Services)
 
-Klyro can also be accessed from an Android device without relying on Google Play Services. Instead of using the official Tailscale Android app, this setup uses **Termux + Tailscale CLI** to connect the phone to the same private Tailscale network as the Arch Linux server.
+Klyro can also be ran from an old Android device as a music server. Instead of using the official Tailscale Android app, this setup uses **Termux + Tailscale CLI** to connect the phone to the same private Tailscale network.
 
 This is useful for Android devices without Google apps or Google Play Services, including lightweight or custom Android installations.
 
 ### Requirements
 
-- Android phone running a compatible version of Android.
+- Android phone (old or unused).
 - Termux installed from a trusted source.
 - Internet connectivity.
 - An existing Tailscale account and a tailnet containing the Klyro server.
-- OpenSSH installed on Termux if SSH access is required.
+- OpenSSH installed on Termux, this makes easy to setup everything on android from our laptop.
 
 ### 1. Install Termux
 
@@ -65,7 +65,11 @@ The phone should appear as a device in the same tailnet as the Linux server.
 Add auto start klyro service on boot on android.
 Also start ssh service on boot so its can be remotly controlled and managed
 
-### start app
+### 4. install the application
+    git clone https://github.com/kailasnv/Klyro.git
+    cd Klyro/
+    
+### 5. start app
 run the application by:
 
     python app.py
@@ -73,7 +77,7 @@ run the application by:
 access locally by `http://<phone-ip>:5000`
 
 
-### 4. Now start the server on boot
+### 6. Now start the server on boot
 
 inside android Termux, Create the boot script directory and script:
 
@@ -102,7 +106,7 @@ Make the script executable:
 
 Open Termux once after installation and reboot to test the setup.  
 
-### 5. Access server from other devices
+### 7. Access server from other devices
 
 Access locally: (from any device on the wifi network)
 
