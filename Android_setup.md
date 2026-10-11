@@ -60,96 +60,44 @@ tailscale ip -4
 
 The phone should appear as a device in the same tailnet as the Linux server.
 
-### 4. Enable SSH Access on Android
+---
 
-To access the phone remotely from another tailnet device, enable the SSH server in Termux.
+Add auto start klyro service on boot on android.
+Also start ssh service on boot so its can be remotly controlled and managed
 
-Set a password for your Termux user:
+### 4. Now start the server on boot
 
-```bash
-passwd
-```
+inside android Termux, Create the boot script directory and script:
 
-Start the SSH daemon on the default Termux SSH port:
-
-```bash
-sshd
-```
-
-Check the current Termux username:
-
-```bash
-whoami
-```
-
-Get the phone's Tailscale IPv4 address:
-
-```bash
-tailscale ip -4
-```
-
-From the Arch Linux computer, connect using:
-
-```bash
-ssh -p 8022 <termux-username>@<android-tailscale-ip>
-```
-
-Replace the placeholders with the username returned by `whoami` and the phone's actual Tailscale IP.
-
-**Security note:** Prefer SSH key authentication and avoid exposing SSH to the public internet. Tailscale provides the private network path between your devices.
-
-### 5. Start SSH Automatically After Reboot (Optional)
-
-Install the Termux:Boot add-on from the same trusted distribution source as Termux:
-
-- [Termux:Boot](https://github.com/termux/termux-boot)
-
-Create the boot script directory and script:
-
-```bash
-mkdir -p ~/.termux/boot
-nano ~/.termux/boot/start-ssh
-```
+    mkdir -p ~/.termux/boot
+    nano ~/.termux/boot/start-klyro
 
 Add the following:
 
-```bash
-#!/data/data/com.termux/files/usr/bin/sh
+    #!/data/data/com.termux/files/usr/bin/sh
 
-termux-wake-lock
-tailscaled-start
-sshd
-```
+    termux-wake-lock
+
+    cd "$HOME/Klyro" || exit 1
+
+    mkdir -p "$HOME/Music"
+
+    exec python app.py >> "$HOME/klyro.log" 2>&1
 
 Make the script executable:
 
-```bash
-chmod +x ~/.termux/boot/start-ssh
-```
+chmod +x ~/.termux/boot/start-klyro
 
-Open Termux:Boot once after installation and reboot to test the setup. Android battery-management policies may still affect background operation.
+Open Termux once after installation and reboot to test the setup.  
 
-### 6. Access Klyro from Android
+### 5. Access server from other devices
 
-Make sure the Klyro server is running on the Arch Linux computer and that both devices are connected to the same tailnet.
+Access locally: (from any device on the wifi network)
 
-Open a browser on Android and navigate to:
+    http://<phone-ip>:5000
 
-```text
-http://<klyro-server-tailscale-ip>:5000
-```
+Acess from anywhere (using tailscale and configured tailnet)
 
-Replace the placeholder with the Tailscale IPv4 address of the Arch Linux server.
+    http://<klyro-server-tailscale-ip>:5000
 
-You can also SSH from Android to the Arch Linux machine if its SSH service is configured and permitted by your tailnet access rules.
- d` | Set or change the Termux user's password |
-
-### Notes
-
-- This configuration uses Termux's userspace Tailscale implementation; root access is not required.
-- The phone and Klyro server must be connected to the same tailnet, and the relevant access policies must permit the connection.
-- Android may suspend background processes to save battery. Termux:Boot and `termux-wake-lock` can help, but do not guarantee uninterrupted connectivity.
-- The Tailscale CLI implementation is maintained by a third party and is separate from the official Tailscale Android application.
-
- 
----
+Replace the placeholder with the Tailscale IPv4 address of the android mobile server.
