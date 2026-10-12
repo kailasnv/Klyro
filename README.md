@@ -123,3 +123,6 @@ Paste this and save (add exact path to the app.py):
 * Minimal web UI for playback
 
 ---
+<img width="1854" height="972" alt="Image" src="https://github.com/user-attachments/assets/cd00c1b1-fafc-451e-a204-d742236a94fe" />
+
+---
